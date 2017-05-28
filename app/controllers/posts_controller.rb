@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
 
   before_action :authenticate_user!, :onlu => [:new, :create, :edit, :update]
-  before_action :find_group_and_post, :only => [:edit, :update]
+  before_action :find_group_and_post, :only => [:edit, :update, :destroy]
 
   def new
     @group = Group.find(params[:group_id])
@@ -20,6 +20,7 @@ class PostsController < ApplicationController
       render :new
     end
   end
+
   def edit
   end
 
@@ -29,6 +30,13 @@ class PostsController < ApplicationController
     else
       render :edit
     end
+  end
+
+  def destroy
+    @post.destroy
+
+    redirect_to account_posts_path(@group), alert: "Post has been deleted"
+    
   end
 
 
